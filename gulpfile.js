@@ -4,13 +4,19 @@ const minify = require('gulp-minify');
 const concat = require('gulp-concat');
 const { series } = require('gulp');
 const eslint = require('gulp-eslint');
-
+const scsslint = require('gulp-scss-lint');
 // Task to compile sass
 gulp.task('compileSass', async function() {
     gulp.src(['sass/*'])
     .pipe(sass({outputStyle: 'expanded'}))
     .pipe(concat('styles.css'))
     .pipe(gulp.dest('css/'))
+});
+
+// scss linting.
+gulp.task('scss-lint', function() {
+  return gulp.src('/sass/*.scss')
+    .pipe(scsslint());
 });
 
 gulp.task('compress', async function() {
@@ -34,5 +40,5 @@ gulp.task('watch', async function() {
      gulp.watch('scripts/*.js', gulp.series('compress'));
 });
 
-gulp.task('default', series('compileSass', 'jsLint', 'compress'));
+gulp.task('default', series('scss-lint', 'compileSass', 'jsLint', 'compress'));
 
