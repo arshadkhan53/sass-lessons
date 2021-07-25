@@ -26,5 +26,5 @@ gulp.task('watch', async function() {
      gulp.watch('scripts/*.js', gulp.series('compress'));
 });
 
-gulp.task('default', series('watch'));
+gulp.task('default', series('compileSass', 'compress'));
 
