@@ -3,7 +3,7 @@ const sass = require('gulp-sass')(require('sass'));
 const minify = require('gulp-minify');
 const concat = require('gulp-concat');
 const { series } = require('gulp');
-
+const eslint = require('gulp-eslint');
 
 // Task to compile sass
 gulp.task('compileSass', async function() {
@@ -19,6 +19,14 @@ gulp.task('compress', async function() {
       .pipe(gulp.dest('js'))
   });
 
+// Check js lint.
+gulp.task('jsLint', function(){
+	return gulp.src(['scripts/*.js'])
+        .pipe(eslint())
+        .pipe(eslint.format())
+        .pipe(eslint.failAfterError());
+});
+
 // It's going to watch all scss files and.
 // run task compileSass for any changes.
 gulp.task('watch', async function() {
@@ -26,5 +34,5 @@ gulp.task('watch', async function() {
      gulp.watch('scripts/*.js', gulp.series('compress'));
 });
 
-gulp.task('default', series('compileSass', 'compress'));
+gulp.task('default', series('compileSass', 'jsLint', 'compress'));
 

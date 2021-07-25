@@ -1,3 +1,3 @@
 document.read(function() {
-    console.log("in here");
+    console.log('in here');
 })
